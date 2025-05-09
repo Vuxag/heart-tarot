@@ -19,9 +19,7 @@ ReactDOM.createRoot(rootElement).render(
       <AuthProvider>
         <LanguageProvider>
           <AudioProvider>
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
-              <App />
-            </div>
+            <App />
           </AudioProvider>
         </LanguageProvider>
       </AuthProvider>

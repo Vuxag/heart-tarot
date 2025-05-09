@@ -68,7 +68,7 @@ exports.saveReading = functions.https.onRequest(async (request, response) => {
     
     await historyRef.set({
       readings: admin.firestore.FieldValue.arrayUnion(reading),
-      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      updatedAt: admin.firestone.FieldValue.serverTimestamp()
     }, { merge: true });
 
     response.json({ success: true });

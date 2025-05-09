@@ -1,11 +1,9 @@
-import { useState, useRef, Suspense, useEffect } from 'react'
+import { useState, useRef, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Stars } from '@react-three/drei'
 import { useAuth } from '../contexts/AuthContext'
 import { useAudio } from '../contexts/AudioContext'
 import { useLanguage } from '../contexts/LanguageContext'
-import { db } from '../config/firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { tarotCards } from '../data/tarotCards'
 import TarotCard3D from '../components/TarotCard3D'
 import SelectedCards from '../components/SelectedCards'
@@ -33,16 +31,6 @@ export default function TarotReading() {
   const { playSound, stopSound } = useAudio()
   const { language } = useLanguage()
   const controlsRef = useRef()
-
-  useEffect(() => {
-    // Play background music when component mounts
-    playSound('background', { loop: true, volume: 0.3 })
-
-    // Stop background music when component unmounts
-    return () => {
-      stopSound('background')
-    }
-  }, [])
 
   const handleCardClick = (index) => {
     if (selectedCards.length >= 3 || isRevealing) return
@@ -78,20 +66,9 @@ export default function TarotReading() {
   }
 
   const saveReading = async () => {
-    if (!currentUser || selectedCards.length !== 3) return
-
-    try {
-      await addDoc(collection(db, 'readings'), {
-        userId: currentUser.uid,
-        question,
-        cards: selectedCards,
-        timestamp: serverTimestamp()
-      })
-      playSound('success')
-    } catch (error) {
-      console.error('Lỗi khi lưu bài đọc:', error)
-      playSound('error')
-    }
+    if (selectedCards.length !== 3) return
+    // Mock successful save
+    playSound('success')
   }
 
   const resetReading = () => {
@@ -185,14 +162,12 @@ export default function TarotReading() {
 
         {selectedCards.length === 3 && (
           <div className="mt-8 flex justify-center">
-            {currentUser && (
-              <button
-                onClick={saveReading}
-                className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                {language === 'vi' ? 'Lưu bài đọc' : 'Save Reading'}
-              </button>
-            )}
+            <button
+              onClick={saveReading}
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              {language === 'vi' ? 'Lưu bài đọc' : 'Save Reading'}
+            </button>
           </div>
         )}
       </div>

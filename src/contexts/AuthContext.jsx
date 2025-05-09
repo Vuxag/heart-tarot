@@ -1,11 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-import { 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  signInAnonymously,
-  onAuthStateChanged
-} from 'firebase/auth'
-import { auth } from '../config/firebase'
+import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext()
 
@@ -18,44 +11,26 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
-
-    return unsubscribe
-  }, [])
+  // Mock user data
+  const [currentUser] = useState({
+    uid: 'mock-user-id',
+    email: 'mock@example.com',
+    displayName: 'Mock User'
+  })
 
   const signInWithGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider()
-      await signInWithPopup(auth, provider)
-    } catch (error) {
-      console.error('Error signing in with Google:', error)
-      throw error
-    }
+    // Mock successful sign in
+    return Promise.resolve(currentUser)
   }
 
   const signInAsGuest = async () => {
-    try {
-      await signInAnonymously(auth)
-    } catch (error) {
-      console.error('Error signing in as guest:', error)
-      throw error
-    }
+    // Mock successful guest sign in
+    return Promise.resolve(currentUser)
   }
 
   const logout = async () => {
-    try {
-      await auth.signOut()
-    } catch (error) {
-      console.error('Error signing out:', error)
-      throw error
-    }
+    // Mock successful logout
+    return Promise.resolve()
   }
 
   const value = {
@@ -63,14 +38,6 @@ export function AuthProvider({ children }) {
     signInWithGoogle,
     signInAsGuest,
     logout
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
-      </div>
-    )
   }
 
   return (
