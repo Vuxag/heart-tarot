@@ -1,20 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const LanguageContext = createContext();
-
-export function LanguageProvider({ children }) {
-  const [language, setLanguage] = useState('vi');
-
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'vi' ? 'en' : 'vi');
-  };
-
-  return (
-    <LanguageContext.Provider value={{ language, toggleLanguage }}>
-      {children}
-    </LanguageContext.Provider>
-  );
-}
 
 export function useLanguage() {
   const context = useContext(LanguageContext);
@@ -22,4 +8,30 @@ export function useLanguage() {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
+}
+
+export function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState(() => {
+    const savedLanguage = localStorage.getItem('language');
+    return savedLanguage || 'vi';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'vi' ? 'en' : 'vi');
+  };
+
+  const value = {
+    language,
+    toggleLanguage
+  };
+
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
 } 

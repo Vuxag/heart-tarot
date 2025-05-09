@@ -6,10 +6,22 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: true
+    host: true,
+    strictPort: true,
+    watch: {
+      usePolling: true
+    }
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          three: ['three', '@react-three/fiber', '@react-three/drei']
+        }
+      }
+    }
   }
 }) 

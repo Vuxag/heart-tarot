@@ -1,100 +1,103 @@
-import { useRef, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useGLTF, Text, Float } from '@react-three/drei'
+import { useGLTF, useTexture } from '@react-three/drei'
+import { useLanguage } from '../contexts/LanguageContext'
 import * as THREE from 'three'
-import { useAudio } from '../contexts/AudioContext'
 
-export default function TarotCard3D({ card, position, isSelected, onClick }) {
+const TarotCard3D = ({ card, isRevealed }) => {
+  const { language } = useLanguage()
   const meshRef = useRef()
-  const [hovered, setHovered] = useState(false)
-  const { nodes, materials } = useGLTF('/models/card.glb')
-  const { playSound } = useAudio()
+  const { nodes, materials } = useGLTF('/models/tarot_card.glb')
+  const cardTexture = useTexture(card.image)
 
-  // Animation for floating effect
+  useEffect(() => {
+    if (meshRef.current) {
+      // Create a new material with the card texture
+      const material = new THREE.MeshStandardMaterial({
+        map: cardTexture,
+        roughness: 0.5,
+        metalness: 0.2,
+        envMapIntensity: 1,
+      })
+
+      // Apply the material to the card mesh
+      meshRef.current.material = material
+    }
+  }, [cardTexture])
+
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1
-      if (isSelected) {
-        meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.1 + 0.2
-      }
+      // Add subtle floating animation
+      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.05
+      
+      // Add gentle rotation
+      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1
     }
   })
 
-  const handleClick = () => {
-    playSound('cardSelect')
-    onClick()
-  }
-
-  const handlePointerOver = () => {
-    setHovered(true)
-    playSound('hover', { volume: 0.3 })
-  }
-
-  const handlePointerOut = () => {
-    setHovered(false)
-  }
-
   return (
-    <Float
-      speed={1.5}
-      rotationIntensity={0.2}
-      floatIntensity={0.5}
-    >
-      <group
+    <group>
+      <mesh
         ref={meshRef}
-        position={position}
-        scale={isSelected ? 1.2 : 1}
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
+        geometry={nodes.Card.geometry}
+        position={[0, 0, 0]}
+        rotation={[0, 0, 0]}
+        scale={[1, 1.5, 0.1]}
       >
-        {/* Card base */}
-        <mesh
-          geometry={nodes.Card.geometry}
-          material={materials.CardMaterial}
-          castShadow
-          receiveShadow
-        >
-          <meshStandardMaterial
-            color={hovered ? '#ff6b6b' : '#ffffff'}
-            metalness={0.5}
-            roughness={0.2}
-          />
-        </mesh>
-
-        {/* Card front */}
-        <mesh position={[0, 0, 0.01]}>
-          <planeGeometry args={[1.4, 2.4]} />
-          <meshStandardMaterial
-            map={new THREE.TextureLoader().load(`/images/cards/${card.id}.jpg`)}
-            transparent
-            opacity={0.9}
-          />
-        </mesh>
-
-        {/* Card back */}
-        <mesh position={[0, 0, -0.01]} rotation={[0, Math.PI, 0]}>
-          <planeGeometry args={[1.4, 2.4]} />
-          <meshStandardMaterial
-            map={new THREE.TextureLoader().load('/images/card-back.jpg')}
-            transparent
-            opacity={0.9}
-          />
-        </mesh>
-
-        {/* Card name */}
-        <Text
-          position={[0, 1.1, 0.02]}
-          fontSize={0.1}
+        <meshStandardMaterial
           color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-          outlineWidth={0.01}
-          outlineColor="#000000"
+          roughness={0.5}
+          metalness={0.2}
+          envMapIntensity={1}
+        />
+      </mesh>
+
+      {/* Card border */}
+      <mesh
+        geometry={nodes.Border.geometry}
+        position={[0, 0, 0.06]}
+        rotation={[0, 0, 0]}
+        scale={[1.02, 1.52, 0.02]}
+      >
+        <meshStandardMaterial
+          color="#c0a080"
+          roughness={0.3}
+          metalness={0.8}
+          envMapIntensity={1.5}
+        />
+      </mesh>
+
+      {/* Card name */}
+      <mesh
+        position={[0, 0.6, 0.07]}
+        rotation={[0, 0, 0]}
+        scale={[0.8, 0.2, 0.01]}
+      >
+        <planeGeometry />
+        <meshBasicMaterial
+          color="#ffffff"
+          transparent
+          opacity={0.9}
+        />
+      </mesh>
+
+      {/* Card meaning */}
+      {isRevealed && (
+        <mesh
+          position={[0, -0.6, 0.07]}
+          rotation={[0, 0, 0]}
+          scale={[0.8, 0.3, 0.01]}
         >
-          {card.vietnameseName}
-        </Text>
-      </group>
-    </Float>
+          <planeGeometry />
+          <meshBasicMaterial
+            color="#ffffff"
+            transparent
+            opacity={0.9}
+          />
+        </mesh>
+      )}
+    </group>
   )
-} 
+}
+
+export default TarotCard3D 

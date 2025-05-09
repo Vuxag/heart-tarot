@@ -1,10 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App'
+import { AuthProvider } from './contexts/AuthContext'
+import { LanguageProvider } from './contexts/LanguageContext'
+import { AudioProvider } from './contexts/AudioContext'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+// Ensure root element exists
+const rootElement = document.getElementById('root')
+if (!rootElement) {
+  throw new Error('Root element not found')
+}
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <BrowserRouter>
+      <AuthProvider>
+        <LanguageProvider>
+          <AudioProvider>
+            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
+              <App />
+            </div>
+          </AudioProvider>
+        </LanguageProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 ) 

@@ -6,52 +6,70 @@ import ControlBar from './ControlBar'
 import LoadingScreen from './LoadingScreen'
 import Tutorial from './Tutorial'
 import Settings from './Settings'
-import ParticleBackground from './ParticleBackground'
+import { tarotCards } from '../data/tarotCards'
+import { minorArcana } from '../data/minorArcana'
 
-export default function TarotReading() {
+const TarotReading = () => {
   const { language } = useLanguage()
-  const { playCardSound } = useAudio()
+  const { playSound, isMuted } = useAudio()
   const [isLoading, setIsLoading] = useState(true)
   const [showTutorial, setShowTutorial] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
   const [selectedCards, setSelectedCards] = useState([])
-  const [question, setQuestion] = useState('')
+  const [userQuestion, setUserQuestion] = useState('')
   const [isReadingComplete, setIsReadingComplete] = useState(false)
-  const [isFlipping, setIsFlipping] = useState(false)
+  const [allCards, setAllCards] = useState([])
 
   useEffect(() => {
     // Simulate loading assets
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 3000)
+
+    // Combine Major and Minor Arcana cards
+    const combinedCards = [
+      ...tarotCards,
+      ...Object.values(minorArcana).flat()
+    ]
+    setAllCards(combinedCards)
+
     return () => clearTimeout(timer)
   }, [])
 
   const handleCardSelect = (card) => {
     if (selectedCards.length < 3 && !selectedCards.find(c => c.id === card.id)) {
-      setIsFlipping(true)
-      setTimeout(() => {
-        setSelectedCards([...selectedCards, card])
-        playCardSound()
-        setIsFlipping(false)
-      }, 500)
+      setSelectedCards([...selectedCards, card])
+      playSound('cardSelect')
     }
   }
 
   const handleRandomSelect = () => {
-    // Implement random card selection logic
+    if (selectedCards.length < 3) {
+      const availableCards = allCards.filter(
+        card => !selectedCards.find(c => c.id === card.id)
+      )
+      const randomCard = availableCards[Math.floor(Math.random() * availableCards.length)]
+      setSelectedCards([...selectedCards, randomCard])
+      playSound('cardSelect')
+    }
   }
 
   const handleStartReading = () => {
-    if (selectedCards.length === 3 && question.trim()) {
+    if (selectedCards.length === 3 && userQuestion.trim()) {
       setIsReadingComplete(true)
+      playSound('readingComplete')
     }
   }
 
   const handleReset = () => {
     setSelectedCards([])
-    setQuestion('')
+    setUserQuestion('')
     setIsReadingComplete(false)
+    playSound('reset')
+  }
+
+  const handleSettingsClick = () => {
+    setShowSettings(true)
   }
 
   if (isLoading) {
@@ -59,107 +77,93 @@ export default function TarotReading() {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
-      <ParticleBackground />
-      
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 text-white">
       <ControlBar
         onRandomSelect={handleRandomSelect}
-        onSettingsClick={() => setShowSettings(true)}
+        onSettingsClick={handleSettingsClick}
+        isMuted={isMuted}
       />
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      {showTutorial && (
+        <Tutorial
+          isOpen={showTutorial}
+          onClose={() => setShowTutorial(false)}
+        />
+      )}
+
+      {showSettings && (
+        <Settings
+          isOpen={showSettings}
+          onClose={() => setShowSettings(false)}
+        />
+      )}
+
+      <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="heading-1 gradient-text mb-4">
-            Bài Đọc Tarot
+          <h1 className="text-4xl font-bold mb-4">
+            {language === 'vi' ? 'Bài Đọc Tarot' : 'Tarot Reading'}
           </h1>
-          <p className="body-large text-purple-200">
-            Chọn 3 lá bài và đặt câu hỏi của bạn
+          <p className="text-lg opacity-80">
+            {language === 'vi'
+              ? 'Chọn 3 lá bài và đặt câu hỏi của bạn'
+              : 'Select 3 cards and ask your question'}
           </p>
         </div>
 
-        {!isReadingComplete ? (
-          <>
-            <div className="mb-8">
-              <textarea
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                placeholder="Nhập câu hỏi của bạn..."
-                className="w-full p-4 rounded-lg glass text-white placeholder-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                rows={3}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((position) => (
-                <div
-                  key={position}
-                  className="aspect-[3/5] glass rounded-lg flex items-center justify-center relative overflow-hidden"
-                >
-                  {selectedCards[position - 1] ? (
-                    <div className={`tarot-card ${isFlipping ? 'card-flip' : ''}`}>
-                      <TarotCard3D
-                        card={selectedCards[position - 1]}
-                        position={position}
-                      />
-                    </div>
-                  ) : (
-                    <div className="text-purple-200 text-center body-medium">
-                      Chọn lá bài
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 text-center">
-              <button
-                onClick={handleStartReading}
-                disabled={selectedCards.length !== 3 || !question.trim()}
-                className="button-primary"
-              >
-                Bắt đầu đọc bài
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              {selectedCards.map((card, index) => (
-                <div key={card.id} className="text-center">
-                  <div className="tarot-card">
-                    <TarotCard3D card={card} position={index + 1} />
-                  </div>
-                  <h3 className="card-name mt-4">
-                    {card.nameVi}
-                  </h3>
-                  <p className="body-medium text-purple-200 mt-2">
-                    {card.meaningVi}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[0, 1, 2].map((index) => (
+            <div
+              key={index}
+              className="relative aspect-[2/3] bg-black/20 rounded-lg overflow-hidden"
+            >
+              {selectedCards[index] ? (
+                <TarotCard3D
+                  card={selectedCards[index]}
+                  isRevealed={isReadingComplete}
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-xl opacity-60">
+                    {language === 'vi' ? 'Chọn lá bài' : 'Select a card'}
                   </p>
                 </div>
-              ))}
+              )}
             </div>
+          ))}
+        </div>
 
-            <div className="text-center">
-              <button
-                onClick={handleReset}
-                className="button-secondary"
-              >
-                Đọc bài mới
-              </button>
-            </div>
+        {!isReadingComplete && (
+          <div className="mt-8 text-center">
+            <textarea
+              value={userQuestion}
+              onChange={(e) => setUserQuestion(e.target.value)}
+              placeholder={language === 'vi' ? 'Đặt câu hỏi của bạn...' : 'Ask your question...'}
+              className="w-full max-w-lg p-4 bg-black/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              rows={3}
+            />
+            <button
+              onClick={handleStartReading}
+              disabled={selectedCards.length !== 3 || !userQuestion.trim()}
+              className="mt-4 px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {language === 'vi' ? 'Bắt đầu đọc bài' : 'Start Reading'}
+            </button>
+          </div>
+        )}
+
+        {isReadingComplete && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={handleReset}
+              className="px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium transition-colors"
+            >
+              {language === 'vi' ? 'Đọc bài mới' : 'New Reading'}
+            </button>
           </div>
         )}
       </div>
-
-      <Tutorial
-        isOpen={showTutorial}
-        onClose={() => setShowTutorial(false)}
-      />
-
-      <Settings
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-      />
     </div>
   )
-} 
+}
+
+export default TarotReading 

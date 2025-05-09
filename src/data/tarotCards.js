@@ -1,156 +1,253 @@
 export const tarotCards = [
+  // Major Arcana
   {
-    id: 0,
-    name: "The Fool",
-    vietnameseName: "Kẻ Khờ Dại",
-    meaning: "Sự khởi đầu mới, tự do, phiêu lưu, vô tư lự",
-    reversedMeaning: "Thiếu suy nghĩ, liều lĩnh, thiếu trách nhiệm"
+    id: 'fool',
+    nameVi: 'Kẻ Khờ Dại',
+    nameEn: 'The Fool',
+    meaningVi: 'Sự khởi đầu mới, tự do, phiêu lưu, vô tư lự',
+    meaningEn: 'New beginnings, freedom, adventure, carefree',
+    image: '/cards/major/fool.jpg',
+    type: 'major'
   },
   {
-    id: 1,
-    name: "The Magician",
-    vietnameseName: "Pháp Sư",
-    meaning: "Sáng tạo, kỹ năng, ý chí, sự tập trung",
-    reversedMeaning: "Lạm dụng quyền lực, thiếu kỹ năng, lừa dối"
+    id: 'magician',
+    nameVi: 'Pháp Sư',
+    nameEn: 'The Magician',
+    meaningVi: 'Sáng tạo, kỹ năng, ý chí, sự tập trung',
+    meaningEn: 'Creativity, skill, willpower, concentration',
+    image: '/cards/major/magician.jpg',
+    type: 'major'
   },
   {
-    id: 2,
-    name: "The High Priestess",
-    vietnameseName: "Nữ Tư Tế",
-    meaning: "Trực giác, bí ẩn, nội tâm, sự khôn ngoan",
-    reversedMeaning: "Thiếu trực giác, bí mật, bề ngoài"
+    id: 'high-priestess',
+    nameVi: 'Nữ Tư Tế',
+    nameEn: 'The High Priestess',
+    meaningVi: 'Trực giác, bí ẩn, tiềm thức, sự khôn ngoan',
+    meaningEn: 'Intuition, mystery, subconscious, wisdom',
+    image: '/cards/major/high-priestess.jpg',
+    type: 'major'
   },
   {
-    id: 3,
-    name: "The Empress",
-    vietnameseName: "Hoàng Hậu",
-    meaning: "Sinh sôi, nuôi dưỡng, sung túc, tự nhiên",
-    reversedMeaning: "Phụ thuộc, thiếu tự tin, thiếu sự nuôi dưỡng"
+    id: 'empress',
+    nameVi: 'Hoàng Hậu',
+    nameEn: 'The Empress',
+    meaningVi: 'Sinh sôi, nuôi dưỡng, sung túc, thiên nhiên',
+    meaningEn: 'Fertility, nurturing, abundance, nature',
+    image: '/cards/major/empress.jpg',
+    type: 'major'
   },
   {
-    id: 4,
-    name: "The Emperor",
-    vietnameseName: "Hoàng Đế",
-    meaning: "Quyền lực, ổn định, cấu trúc, sự bảo vệ",
-    reversedMeaning: "Kiểm soát quá mức, cứng nhắc, thiếu linh hoạt"
+    id: 'emperor',
+    nameVi: 'Hoàng Đế',
+    nameEn: 'The Emperor',
+    meaningVi: 'Quyền lực, ổn định, cấu trúc, lãnh đạo',
+    meaningEn: 'Authority, stability, structure, leadership',
+    image: '/cards/major/emperor.jpg',
+    type: 'major'
   },
   {
-    id: 5,
-    name: "The Hierophant",
-    vietnameseName: "Giáo Hoàng",
-    meaning: "Truyền thống, tôn giáo, đạo đức, sự hướng dẫn",
-    reversedMeaning: "Nổi loạn, không tuân theo quy tắc, tự do"
+    id: 'hierophant',
+    nameVi: 'Giáo Chủ',
+    nameEn: 'The Hierophant',
+    meaningVi: 'Truyền thống, tôn giáo, đạo đức, giáo dục',
+    meaningEn: 'Tradition, religion, morality, education',
+    image: '/cards/major/hierophant.jpg',
+    type: 'major'
   },
   {
-    id: 6,
-    name: "The Lovers",
-    vietnameseName: "Tình Nhân",
-    meaning: "Tình yêu, sự hài hòa, mối quan hệ, lựa chọn",
-    reversedMeaning: "Mất cân bằng, không hòa hợp, lựa chọn sai lầm"
+    id: 'lovers',
+    nameVi: 'Tình Nhân',
+    nameEn: 'The Lovers',
+    meaningVi: 'Tình yêu, hài hòa, lựa chọn, mối quan hệ',
+    meaningEn: 'Love, harmony, choices, relationships',
+    image: '/cards/major/lovers.jpg',
+    type: 'major'
   },
   {
-    id: 7,
-    name: "The Chariot",
-    vietnameseName: "Cỗ Xe",
-    meaning: "Kiểm soát, ý chí, thành công, sự tiến bộ",
-    reversedMeaning: "Thiếu kiểm soát, thiếu định hướng, thất bại"
+    id: 'chariot',
+    nameVi: 'Cỗ Xe',
+    nameEn: 'The Chariot',
+    meaningVi: 'Kiểm soát, ý chí, chiến thắng, quyết tâm',
+    meaningEn: 'Control, willpower, victory, determination',
+    image: '/cards/major/chariot.jpg',
+    type: 'major'
   },
   {
-    id: 8,
-    name: "Strength",
-    vietnameseName: "Sức Mạnh",
-    meaning: "Sức mạnh nội tâm, lòng can đảm, sự kiên nhẫn",
-    reversedMeaning: "Yếu đuối, thiếu tự tin, thiếu kiểm soát"
+    id: 'strength',
+    nameVi: 'Sức Mạnh',
+    nameEn: 'Strength',
+    meaningVi: 'Sức mạnh nội tâm, lòng can đảm, kiên nhẫn',
+    meaningEn: 'Inner strength, courage, patience',
+    image: '/cards/major/strength.jpg',
+    type: 'major'
   },
   {
-    id: 9,
-    name: "The Hermit",
-    vietnameseName: "Ẩn Sĩ",
-    meaning: "Suy ngẫm, tìm kiếm nội tâm, sự khôn ngoan",
-    reversedMeaning: "Cô lập, từ chối giúp đỡ, thiếu định hướng"
+    id: 'hermit',
+    nameVi: 'Ẩn Sĩ',
+    nameEn: 'The Hermit',
+    meaningVi: 'Suy ngẫm, tìm kiếm nội tâm, cô độc',
+    meaningEn: 'Introspection, inner search, solitude',
+    image: '/cards/major/hermit.jpg',
+    type: 'major'
   },
   {
-    id: 10,
-    name: "Wheel of Fortune",
-    vietnameseName: "Vòng Quay Số Mệnh",
-    meaning: "Vận may, cơ hội, thay đổi, số phận",
-    reversedMeaning: "Vận rủi, thay đổi tiêu cực, thiếu kiểm soát"
+    id: 'wheel-of-fortune',
+    nameVi: 'Vòng Quay Số Mệnh',
+    nameEn: 'Wheel of Fortune',
+    meaningVi: 'Vận may, cơ hội, thay đổi, số phận',
+    meaningEn: 'Luck, opportunity, change, fate',
+    image: '/cards/major/wheel-of-fortune.jpg',
+    type: 'major'
   },
   {
-    id: 11,
-    name: "Justice",
-    vietnameseName: "Công Lý",
-    meaning: "Công bằng, sự thật, nguyên nhân và kết quả",
-    reversedMeaning: "Bất công, thiếu cân bằng, thiếu trách nhiệm"
+    id: 'justice',
+    nameVi: 'Công Lý',
+    nameEn: 'Justice',
+    meaningVi: 'Công bằng, sự thật, nguyên nhân và kết quả',
+    meaningEn: 'Justice, truth, cause and effect',
+    image: '/cards/major/justice.jpg',
+    type: 'major'
   },
   {
-    id: 12,
-    name: "The Hanged Man",
-    vietnameseName: "Người Treo",
-    meaning: "Hy sinh, buông bỏ, góc nhìn mới, sự chờ đợi",
-    reversedMeaning: "Chống đối, thiếu kiên nhẫn, thiếu hy sinh"
+    id: 'hanged-man',
+    nameVi: 'Người Treo',
+    nameEn: 'The Hanged Man',
+    meaningVi: 'Hy sinh, buông bỏ, nhìn nhận mới',
+    meaningEn: 'Sacrifice, letting go, new perspective',
+    image: '/cards/major/hanged-man.jpg',
+    type: 'major'
   },
   {
-    id: 13,
-    name: "Death",
-    vietnameseName: "Thần Chết",
-    meaning: "Kết thúc, thay đổi, chuyển đổi, sự tái sinh",
-    reversedMeaning: "Kháng cự thay đổi, trì trệ, không thể buông bỏ"
+    id: 'death',
+    nameVi: 'Cái Chết',
+    nameEn: 'Death',
+    meaningVi: 'Kết thúc, thay đổi, chuyển đổi, buông bỏ',
+    meaningEn: 'Endings, change, transformation, letting go',
+    image: '/cards/major/death.jpg',
+    type: 'major'
   },
   {
-    id: 14,
-    name: "Temperance",
-    vietnameseName: "Điều Độ",
-    meaning: "Cân bằng, điều độ, kiên nhẫn, mục đích",
-    reversedMeaning: "Mất cân bằng, thái quá, thiếu kiên nhẫn"
+    id: 'temperance',
+    nameVi: 'Điều Độ',
+    nameEn: 'Temperance',
+    meaningVi: 'Cân bằng, điều độ, kiên nhẫn, hài hòa',
+    meaningEn: 'Balance, moderation, patience, harmony',
+    image: '/cards/major/temperance.jpg',
+    type: 'major'
   },
   {
-    id: 15,
-    name: "The Devil",
-    vietnameseName: "Ác Quỷ",
-    meaning: "Ràng buộc, vật chất, dục vọng, bóng tối",
-    reversedMeaning: "Giải phóng, vượt qua cám dỗ, sự tự do"
+    id: 'devil',
+    nameVi: 'Ác Quỷ',
+    nameEn: 'The Devil',
+    meaningVi: 'Ràng buộc, vật chất, dục vọng, bóng tối',
+    meaningEn: 'Bondage, materialism, desire, shadow',
+    image: '/cards/major/devil.jpg',
+    type: 'major'
   },
   {
-    id: 16,
-    name: "The Tower",
-    vietnameseName: "Tòa Tháp",
-    meaning: "Thay đổi đột ngột, hỗn loạn, sự thức tỉnh",
-    reversedMeaning: "Sợ thay đổi, tránh né thực tế, sự trì trệ"
+    id: 'tower',
+    nameVi: 'Tòa Tháp',
+    nameEn: 'The Tower',
+    meaningVi: 'Đột ngột thay đổi, hỗn loạn, thức tỉnh',
+    meaningEn: 'Sudden change, chaos, awakening',
+    image: '/cards/major/tower.jpg',
+    type: 'major'
   },
   {
-    id: 17,
-    name: "The Star",
-    vietnameseName: "Ngôi Sao",
-    meaning: "Hy vọng, niềm tin, sự hướng dẫn, sự tái sinh",
-    reversedMeaning: "Thất vọng, thiếu niềm tin, mất phương hướng"
+    id: 'star',
+    nameVi: 'Ngôi Sao',
+    nameEn: 'The Star',
+    meaningVi: 'Hy vọng, niềm tin, cảm hứng, thanh thản',
+    meaningEn: 'Hope, faith, inspiration, serenity',
+    image: '/cards/major/star.jpg',
+    type: 'major'
   },
   {
-    id: 18,
-    name: "The Moon",
-    vietnameseName: "Mặt Trăng",
-    meaning: "Ảo tưởng, sợ hãi, trực giác, tiềm thức",
-    reversedMeaning: "Vượt qua nỗi sợ, sự thật, sự rõ ràng"
+    id: 'moon',
+    nameVi: 'Mặt Trăng',
+    nameEn: 'The Moon',
+    meaningVi: 'Ảo tưởng, sợ hãi, trực giác, tiềm thức',
+    meaningEn: 'Illusion, fear, intuition, subconscious',
+    image: '/cards/major/moon.jpg',
+    type: 'major'
   },
   {
-    id: 19,
-    name: "The Sun",
-    vietnameseName: "Mặt Trời",
-    meaning: "Hạnh phúc, thành công, sự thật, sự sống",
-    reversedMeaning: "Tạm thời buồn bã, thiếu tự tin, thiếu năng lượng"
+    id: 'sun',
+    nameVi: 'Mặt Trời',
+    nameEn: 'The Sun',
+    meaningVi: 'Hạnh phúc, thành công, sự thật, sức sống',
+    meaningEn: 'Happiness, success, truth, vitality',
+    image: '/cards/major/sun.jpg',
+    type: 'major'
   },
   {
-    id: 20,
-    name: "Judgement",
-    vietnameseName: "Phán Xét",
-    meaning: "Sự thức tỉnh, sự tái sinh, sự gọi mời",
-    reversedMeaning: "Từ chối thay đổi, tự nghi ngờ, thiếu sự thức tỉnh"
+    id: 'judgement',
+    nameVi: 'Phán Xét',
+    nameEn: 'Judgement',
+    meaningVi: 'Thức tỉnh, tái sinh, sự gọi mời',
+    meaningEn: 'Awakening, rebirth, inner calling',
+    image: '/cards/major/judgement.jpg',
+    type: 'major'
   },
   {
-    id: 21,
-    name: "The World",
-    vietnameseName: "Thế Giới",
-    meaning: "Hoàn thành, sự viên mãn, sự hội nhập, thành công",
-    reversedMeaning: "Thiếu hoàn thiện, thiếu kết thúc, thiếu sự viên mãn"
+    id: 'world',
+    nameVi: 'Thế Giới',
+    nameEn: 'The World',
+    meaningVi: 'Hoàn thành, tích hợp, hành trình, thành tựu',
+    meaningEn: 'Completion, integration, journey, achievement',
+    image: '/cards/major/world.jpg',
+    type: 'major'
+  },
+
+  // Minor Arcana - Wands
+  {
+    id: 'ace-of-wands',
+    nameVi: 'Át Gậy',
+    nameEn: 'Ace of Wands',
+    meaningVi: 'Khởi đầu mới, cảm hứng, sáng tạo',
+    meaningEn: 'New beginnings, inspiration, creativity',
+    image: '/cards/minor/wands/ace.jpg',
+    type: 'minor',
+    suit: 'wands'
+  },
+  // ... Thêm các lá bài Wands khác
+
+  // Minor Arcana - Cups
+  {
+    id: 'ace-of-cups',
+    nameVi: 'Át Cốc',
+    nameEn: 'Ace of Cups',
+    meaningVi: 'Tình yêu mới, cảm xúc, trực giác',
+    meaningEn: 'New love, emotions, intuition',
+    image: '/cards/minor/cups/ace.jpg',
+    type: 'minor',
+    suit: 'cups'
+  },
+  // ... Thêm các lá bài Cups khác
+
+  // Minor Arcana - Swords
+  {
+    id: 'ace-of-swords',
+    nameVi: 'Át Kiếm',
+    nameEn: 'Ace of Swords',
+    meaningVi: 'Sự thật, rõ ràng, đột phá',
+    meaningEn: 'Truth, clarity, breakthrough',
+    image: '/cards/minor/swords/ace.jpg',
+    type: 'minor',
+    suit: 'swords'
+  },
+  // ... Thêm các lá bài Swords khác
+
+  // Minor Arcana - Pentacles
+  {
+    id: 'ace-of-pentacles',
+    nameVi: 'Át Tiền',
+    nameEn: 'Ace of Pentacles',
+    meaningVi: 'Cơ hội vật chất, thịnh vượng, tiềm năng',
+    meaningEn: 'Material opportunity, prosperity, potential',
+    image: '/cards/minor/pentacles/ace.jpg',
+    type: 'minor',
+    suit: 'pentacles'
   }
-] 
+  // ... Thêm các lá bài Pentacles khác
+]; 
