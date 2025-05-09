@@ -10,6 +10,9 @@ import { tarotCards } from '../data/tarotCards'
 import TarotCard3D from '../components/TarotCard3D'
 import SelectedCards from '../components/SelectedCards'
 import ControlBar from '../components/ControlBar'
+import LoadingScreen from '../components/LoadingScreen'
+import Tutorial from '../components/Tutorial'
+import Settings from '../components/Settings'
 
 function LoadingFallback() {
   return (
@@ -24,6 +27,8 @@ export default function TarotReading() {
   const [selectedCards, setSelectedCards] = useState([])
   const [question, setQuestion] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
+  const [showTutorial, setShowTutorial] = useState(true)
+  const [showSettings, setShowSettings] = useState(false)
   const { currentUser } = useAuth()
   const { playSound, stopSound } = useAudio()
   const { language } = useLanguage()
@@ -97,7 +102,13 @@ export default function TarotReading() {
 
   return (
     <div className="min-h-screen p-8">
-      <ControlBar onRandomSelect={handleRandomSelect} />
+      {showTutorial && <Tutorial onClose={() => setShowTutorial(false)} />}
+      {showSettings && <Settings onClose={() => setShowSettings(false)} />}
+      
+      <ControlBar 
+        onRandomSelect={handleRandomSelect}
+        onSettingsClick={() => setShowSettings(true)}
+      />
       
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 gradient-text">

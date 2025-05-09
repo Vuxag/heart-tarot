@@ -1,101 +1,59 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useRef } from 'react';
 
 const AudioContext = createContext();
 
+export function useAudio() {
+  return useContext(AudioContext);
+}
+
 export function AudioProvider({ children }) {
-  const [sounds, setSounds] = useState({});
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const audioRefs = useRef({});
 
-  useEffect(() => {
-    // Load all sound effects
-    const soundFiles = {
-      background: '/sounds/background.mp3',
-      cardFlip: '/sounds/card-flip.mp3',
-      cardSelect: '/sounds/card-select.mp3',
-      cardReveal: '/sounds/card-reveal.mp3',
-      success: '/sounds/success.mp3',
-      error: '/sounds/error.mp3',
-      hover: '/sounds/hover.mp3'
-    };
+  const playSound = (name, options = {}) => {
+    if (isMuted) return;
 
-    const loadedSounds = {};
-    Object.entries(soundFiles).forEach(([key, path]) => {
-      const audio = new Audio(path);
-      audio.volume = volume;
-      loadedSounds[key] = audio;
-    });
-
-    setSounds(loadedSounds);
-
-    // Cleanup
-    return () => {
-      Object.values(loadedSounds).forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    // Update volume for all sounds
-    Object.values(sounds).forEach(audio => {
-      audio.volume = isMuted ? 0 : volume;
-    });
-  }, [volume, isMuted]);
-
-  const playSound = (soundName, options = {}) => {
-    const sound = sounds[soundName];
-    if (sound && !isMuted) {
-      if (options.loop) {
-        sound.loop = true;
-      }
-      if (options.volume) {
-        sound.volume = options.volume;
-      }
-      sound.currentTime = 0;
-      sound.play().catch(error => {
-        console.error('Error playing sound:', error);
-      });
-    }
+    const audio = new Audio(`/sounds/${name}.mp3`);
+    audio.volume = volume * (options.volume || 1);
+    if (options.loop) audio.loop = true;
+    audio.play();
+    audioRefs.current[name] = audio;
   };
 
-  const stopSound = (soundName) => {
-    const sound = sounds[soundName];
-    if (sound) {
-      sound.pause();
-      sound.currentTime = 0;
+  const stopSound = (name) => {
+    if (audioRefs.current[name]) {
+      audioRefs.current[name].pause();
+      audioRefs.current[name].currentTime = 0;
     }
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+    Object.values(audioRefs.current).forEach(audio => {
+      audio.muted = !isMuted;
+    });
   };
 
   const setSoundVolume = (newVolume) => {
-    setVolume(Math.max(0, Math.min(1, newVolume)));
+    setVolume(newVolume);
+    Object.values(audioRefs.current).forEach(audio => {
+      audio.volume = newVolume;
+    });
+  };
+
+  const value = {
+    isMuted,
+    volume,
+    playSound,
+    stopSound,
+    toggleMute,
+    setSoundVolume
   };
 
   return (
-    <AudioContext.Provider
-      value={{
-        playSound,
-        stopSound,
-        toggleMute,
-        setSoundVolume,
-        isMuted,
-        volume
-      }}
-    >
+    <AudioContext.Provider value={value}>
       {children}
     </AudioContext.Provider>
   );
-}
-
-export function useAudio() {
-  const context = useContext(AudioContext);
-  if (!context) {
-    throw new Error('useAudio must be used within an AudioProvider');
-  }
-  return context;
 } 

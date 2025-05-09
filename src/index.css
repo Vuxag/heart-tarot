@@ -2,15 +2,139 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900 min-h-screen text-white;
+  }
+
+  /* Font styles for different elements */
+  h1, h2, h3, .title {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .card-title {
+    font-family: 'Denk One', cursive;
+  }
+
+  .body-text {
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .button-text {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20;
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20;
+  }
+
+  /* Enhanced Button Styles */
+  .button-primary {
+    @apply px-6 py-3 bg-purple-600 text-white rounded-lg transition-all duration-300
+    hover:bg-purple-700 hover:shadow-lg hover:shadow-purple-500/30
+    active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .button-secondary {
+    @apply px-6 py-3 bg-white/10 text-white rounded-lg transition-all duration-300
+    hover:bg-white/20 hover:shadow-lg hover:shadow-white/10
+    active:scale-95;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Card Styles */
+  .tarot-card {
+    @apply relative transition-all duration-500 transform-gpu;
+    transform-style: preserve-3d;
+  }
+
+  .tarot-card:hover {
+    @apply shadow-2xl shadow-purple-500/30;
+    transform: translateY(-10px) rotateX(5deg);
+  }
+
+  /* Loading Skeleton */
+  .skeleton {
+    @apply animate-pulse bg-white/10 rounded;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply absolute invisible opacity-0 transition-all duration-200
+    bg-black/80 text-white px-3 py-1 rounded text-sm
+    -translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0;
+  }
+
+  /* Typography classes */
+  .heading-1 {
+    @apply text-4xl md:text-5xl font-bold;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .heading-2 {
+    @apply text-3xl md:text-4xl font-semibold;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .heading-3 {
+    @apply text-2xl md:text-3xl font-medium;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .card-name {
+    @apply text-xl font-medium;
+    font-family: 'Denk One', cursive;
+  }
+
+  .body-large {
+    @apply text-lg;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .body-medium {
+    @apply text-base;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .body-small {
+    @apply text-sm;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .button {
+    @apply font-medium;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
 :root {
-  color-scheme: dark;
+  font-family: 'Quicksand', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(to bottom, #1a1a2e, #16213e);
@@ -69,16 +193,122 @@ canvas {
   animation: flip 1s forwards;
 }
 
-/* Glass Effect */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(to right, #ff6b6b, #4ecdc4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* Particle Effects */
+.particle {
+  @apply absolute w-1 h-1 bg-white/30 rounded-full;
+  animation: float 3s infinite ease-in-out;
+}
+
+/* Enhanced Card Flip Animation */
+@keyframes cardFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.card-flip {
+  animation: cardFlip 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Page Transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .heading-1 {
+    @apply text-3xl;
+  }
+  
+  .heading-2 {
+    @apply text-2xl;
+  }
+  
+  .heading-3 {
+    @apply text-xl;
+  }
+  
+  .button-primary, .button-secondary {
+    @apply px-4 py-2 text-sm;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .glass {
+    @apply bg-black/20;
+  }
+  
+  .button-secondary {
+    @apply bg-black/30;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 } 

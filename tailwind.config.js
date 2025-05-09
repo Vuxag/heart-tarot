@@ -7,9 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#4f46e5',
-        secondary: '#7c3aed',
+        primary: '#4F46E5',
+        secondary: '#7C3AED',
+        accent: '#EC4899',
       },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        }
+      }
     },
   },
   plugins: [],

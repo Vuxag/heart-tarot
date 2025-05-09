@@ -1,74 +1,69 @@
-# 3D Tarot Reading App
+# Tarot 3D Reading
 
-A modern web application for 3D Tarot card readings with beautiful animations and interactive features.
+Ứng dụng đọc bài Tarot 3D với giao diện đẹp mắt và trải nghiệm tương tác.
 
-## Features
+## Tính năng
 
-- 🌟 3D Tarot card visualization with Three.js
-- 🎮 Interactive card selection and flipping
-- 🌐 Multi-language support (Vietnamese/English)
-- 🎵 Ambient background music and sound effects
-- 🔐 User authentication with Firebase
-- 💾 Save reading history
-- 🎨 Beautiful UI with glass morphism effects
+- Giao diện 3D cho lá bài Tarot
+- Hiệu ứng particle và animation mượt mà
+- Hỗ trợ đa ngôn ngữ (Tiếng Việt/English)
+- Hệ thống âm thanh tương tác
+- Lưu trữ lịch sử bài đọc
+- Hướng dẫn sử dụng
+- Tùy chỉnh cài đặt
 
-## Tech Stack
+## Công nghệ sử dụng
 
 - React
 - Three.js
-- React Three Fiber
-- Firebase
 - Tailwind CSS
+- Firebase
 - Vite
 
-## Getting Started
+## Cài đặt
 
-1. Clone the repository:
+1. Clone repository:
 ```bash
-git clone https://github.com/yourusername/3d-tarot.git
-cd 3d-tarot
+git clone https://github.com/your-username/tarot-3d.git
+cd tarot-3d
 ```
 
-2. Install dependencies:
+2. Cài đặt dependencies:
 ```bash
 npm install
 ```
 
-3. Create a Firebase project and add your configuration in `src/config/firebase.js`
+3. Tạo file .env và cấu hình Firebase:
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
-4. Start the development server:
+4. Chạy ứng dụng:
 ```bash
 npm run dev
 ```
 
-## Project Structure
+## Cấu trúc dự án
 
 ```
 src/
-├── components/     # Reusable UI components
-├── contexts/       # React contexts
-├── pages/         # Page components
-├── config/        # Configuration files
-├── data/          # Static data
-├── hooks/         # Custom hooks
-├── styles/        # Global styles
-└── utils/         # Utility functions
+  ├── components/     # React components
+  ├── contexts/       # React contexts
+  ├── hooks/         # Custom hooks
+  ├── models/        # 3D models
+  ├── assets/        # Static assets
+  └── utils/         # Utility functions
 ```
 
-## Contributing
+## Đóng góp
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Mọi đóng góp đều được hoan nghênh! Vui lòng tạo issue hoặc pull request để đóng góp.
 
-## License
+## Giấy phép
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Tarot card images and meanings
-- Three.js community
-- React Three Fiber documentation 
+MIT License 
